@@ -1,0 +1,139 @@
+AIM:
+To Perform Z-test
+
+ALGORITHM:
+Step1: Start
+Step2: Import math, numpy, statsmodels & ztest
+Step3: create a list & print the ztest list
+Step4: Stop
+
+PROGRAM:
+# imports
+import math
+import numpy as np
+from numpy.random import randn
+from statsmodels.stats.weightstats import ztest
+# Generate a random array of 50 numbers having mean 110 and sd 15
+# similar to the IQ scores data we assume above
+mean_iq = 110
+sd_iq = 15/math.sqrt(50)
+alpha =0.05
+null_mean =100
+data = sd_iq*randn(50)+mean_iq
+# print mean and sd
+print('mean=%.2f stdv=%.2f' % (np.mean(data), np.std(data)))
+# now we perform the test. In this function, we passed data, in the value parameter
+# we passed mean value in the null hypothesis, in alternative hypothesis we check whether the
+# mean is larger
+ztest_Score, p_value= ztest(data,value = null_mean, alternative='larger')
+# the function outputs a p_value and z-score corresponding to that value, we compare the
+# p-value with alpha, if it is greater than alpha then we do not null hypothesis
+# else we reject it.
+if(p_value< alpha):
+    print("Reject Null Hypothesis")
+else:
+    print("Fail to Reject NUll Hypothesis")
+
+
+OUTPUT:
+mean=110.17 stdv=2.34
+Reject Null Hypothesis
+
+
+
+
+
+
+
+
+
+
+RESULT:
+Thus, the program for Z-Test case studies has been executed and verified successfully.
+
+
+
+DATE:	T-TEST CASE STUDIES
+Ex No: 6B	
+
+AIM:
+To Perform T-test for sampling distribution. 
+
+ALGORITHM:
+Step1: Start  
+Step2: Import random &numpy 
+Step3: Calculate the standard deviation   
+Step4: Stop 
+
+PROGRAM:
+# Importing the required libraries and packages   
+importnumpy as np   
+fromscipy import stats   
+# Defining two random distributions   
+# Sample Size   
+N = 10   
+# Gaussian distributed data with mean = 2 and var = 1   
+x = np.random.randn(N) + 2   
+# Gaussian distributed data with mean = 0 and var = 1   
+y = np.random.randn(N)   
+# Calculating the Standard Deviation   
+# Calculating the variance to get the standard deviation   
+var_x = x.var(ddof = 1)   
+var_y = y.var(ddof = 1)   
+# Standard Deviation   
+SD = np.sqrt((var_x + var_y) / 2)   
+print("Standard Deviation =", SD)   
+# Calculating the T-Statistics   
+tval = (x.mean() - y.mean()) / (SD * np.sqrt(2 / N))   
+# Comparing with the critical T-Value   
+# Degrees of freedom   
+dof = 2 * N - 2   
+# p-value after comparison with the T-Statistics   
+pval = 1 - stats.t.cdf( tval, df = dof)   
+print("t = " + str(tval))   
+print("p = " + str(2 * pval))   
+## Cross Checking using the internal function from SciPy Package   
+tval2, pval2 = stats.ttest_ind(x, y)   
+print("t = " + str(tval2))   
+print("p = " + str(pval2))   
+
+
+OUTPUT: 
+Standard Deviation = 0.7642398582227466
+t = 4.87688162540348
+p =0.0001212767169695983
+t = 4.876881625403479
+p =0.00012127671696957205
+
+
+
+
+RESULT:
+Thus, the program for T-test case studies has been executed and verified successfully.
+DATE:	ANOVA CASE STUDIES
+Ex No: 6C	
+
+AIM:
+To perform ANOVA test.
+
+ALGORITHM:
+Step1: Start
+Step2: Import scipy
+Step3: import statsmodels
+Step4: calculate ANOVA f and p value
+Step 5: Stop
+
+PROGRAM:
+import scipy.stats as stats
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+
+fvalue, pvalue = stats.f_oneway(df['A'], df['B'], df['C'], df['D'])
+print("SciPy ANOVA Results:")
+print("F-value:", fvalue)
+print("P-value:", pvalue)
+
+model = ols('value ~ C(treatments)', data=df_melt).fit()
+anova_table = sm.stats.anova_lm(model, typ=2)
+print("\nStatsmodels ANOVA Table:")
+print(anova_table) 
