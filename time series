@@ -1,0 +1,27 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+# Generate sample time series data
+date_range = pd.date_range(start='2022-01-01', end='2022-12-31', freq='D')
+data = np.random.randn(len(date_range))
+ts = pd.Series(data, index=date_range)
+# Plot the time series
+ts.plot(figsize=(10, 6))
+plt.title('Sample Time Series Data')
+plt.xlabel('Date')
+plt.ylabel('Value')
+plt.show()
+# Basic statistics of the time series
+print("Basic Statistics:")
+print(ts.describe())
+# Rolling mean and standard deviation
+rolling_mean = ts.rolling(window=30, min_periods=1).mean()
+rolling_std = ts.rolling(window=30, min_periods=1).std()
+# Plotting rolling statistics
+plt.figure(figsize=(10, 6))
+plt.plot(ts, label='Original')
+plt.plot(rolling_mean, label='Rolling Mean')
+plt.plot(rolling_std, label='Rolling Std')
+plt.title('Rolling Statistics')
+plt.legend()
+plt.show()
