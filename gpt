@@ -1,0 +1,119 @@
+import numpy as np
+from scipy import stats
+
+def z_test(sample_mean, population_mean, population_std, sample_size, alpha):
+    # Calculate z-score
+    z_score = (sample_mean - population_mean) / (population_std / np.sqrt(sample_size))
+    
+    # Calculate critical z-value
+    critical_value = stats.norm.ppf(1 - alpha / 2)
+    
+    # Compare z-score with critical value
+    if z_score > critical_value or z_score < -critical_value:
+        print("Reject the null hypothesis")
+    else:
+        print("Accept the null hypothesis")
+
+# Example usage
+sample_mean = 75
+population_mean = 70
+population_std = 10
+sample_size = 100
+alpha = 0.05
+
+z_test(sample_mean, population_mean, population_std, sample_size, alpha)
+
+
+
+
+
+
+
+
+
+import numpy as np
+from scipy import stats
+
+def t_test(sample_mean, population_mean, sample_std, sample_size, alpha):
+    # Calculate t-score
+    t_score = (sample_mean - population_mean) / (sample_std / np.sqrt(sample_size))
+    
+    # Calculate degrees of freedom
+    degrees_of_freedom = sample_size - 1
+    
+    # Calculate critical t-value
+    critical_value = stats.t.ppf(1 - alpha / 2, degrees_of_freedom)
+    
+    # Compare t-score with critical value
+    if t_score > critical_value or t_score < -critical_value:
+        print("Reject the null hypothesis")
+    else:
+        print("Accept the null hypothesis")
+
+# Example usage
+sample_mean = 75
+population_mean = 70
+sample_std = 10
+sample_size = 100
+alpha = 0.05
+
+t_test(sample_mean, population_mean, sample_std, sample_size, alpha)
+
+
+
+
+
+
+
+
+
+
+
+
+import numpy as np
+from scipy import stats
+
+def one_way_anova(*groups):
+    # Concatenate all groups into one array
+    data = np.concatenate(groups)
+    
+    # Calculate overall mean
+    overall_mean = np.mean(data)
+    
+    # Calculate sum of squares between groups
+    ss_between = sum((np.mean(group) - overall_mean)**2 * len(group) for group in groups)
+    
+    # Calculate sum of squares within groups
+    ss_within = sum(np.sum((group - np.mean(group))**2) for group in groups)
+    
+    # Degrees of freedom
+    df_between = len(groups) - 1
+    df_within = len(data) - len(groups)
+    
+    # Calculate mean square between and within
+    ms_between = ss_between / df_between
+    ms_within = ss_within / df_within
+    
+    # F-statistic
+    f_statistic = ms_between / ms_within
+    
+    # p-value
+    p_value = stats.f.sf(f_statistic, df_between, df_within)
+    
+    # ANOVA table
+    print("Source\t\tSS\t\t\tDF\t\t\tMS\t\t\tF\t\t\tp-value")
+    print(f"Between Groups\t{ss_between:.2f}\t\t\t{df_between}\t\t\t{ms_between:.2f}\t\t\t{f_statistic:.2f}\t\t\t{p_value:.4f}")
+    print(f"Within Groups\t{ss_within:.2f}\t\t\t{df_within}\t\t\t{ms_within:.2f}")
+    
+    # Check for significance
+    if p_value < 0.05:
+        print("Reject the null hypothesis")
+    else:
+        print("Accept the null hypothesis")
+
+# Example usage
+group1 = np.array([15, 18, 20, 22, 25])
+group2 = np.array([10, 12, 15, 18, 20])
+group3 = np.array([8, 10, 12, 14, 16])
+
+one_way_anova(group1, group2, group3)
